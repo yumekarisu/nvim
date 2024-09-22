@@ -31,11 +31,19 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
+-- [[ Plugins ]] --
 -- Lazy.nvim Setup
 require("lazy").setup({
 
   -- Oxocarbon Colorscheme
   'nyoom-engineering/oxocarbon.nvim',
+
+  -- LaTex
+  {
+    'lervag/vimtex',
+    lazy = false,
+  },
+  'micangl/cmp-vimtex',
 
   -- Treesitter
   {
@@ -49,6 +57,8 @@ require("lazy").setup({
         "lua",
         "html",
         "css",
+        "vim",
+        "vimdoc",
       }
     }
   },
@@ -68,6 +78,7 @@ require("lazy").setup({
 
 })
 
+-- [[ Setup ]] --
 -- Colorscheme
 vim.opt.background = "dark" -- set this to dark or light
 vim.cmd.colorscheme "oxocarbon"
@@ -75,7 +86,7 @@ vim.cmd.colorscheme "oxocarbon"
 -- LSP Setup
 require("mason").setup()
 require("mason-lspconfig").setup {
-	ensure_installed = { "lua_ls", "clangd" },
+	ensure_installed = { "lua_ls", "clangd", "texlab" },
 }
 
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -111,12 +122,15 @@ lsp.lua_ls.setup({
 lsp.clangd.setup({
   capabilities = lsp_capabilities,
 })
+lsp.texlab.setup({
+  capabilities = lsp_capabilities,
+})
 
 -- Completions Setup
 local cmp = require('cmp')
 cmp.setup({
   sources = {
-    {name = 'nvim_lsp'},
+    {name = 'nvim_lsp', 'vimtex' },
   },
   snippet = {
     expand = function(args)

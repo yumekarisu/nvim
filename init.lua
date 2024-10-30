@@ -12,6 +12,10 @@ vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.smarttab = true
 vim.opt.shiftwidth = 2
+vim.opt.swapfile = false
+
+-- Remap
+vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
 
 -- Lazy.nvim Installation
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -59,6 +63,7 @@ require("lazy").setup({
         "css",
         "vim",
         "vimdoc",
+        "go",
       }
     }
   },
@@ -86,7 +91,7 @@ vim.cmd.colorscheme "oxocarbon"
 -- LSP Setup
 require("mason").setup()
 require("mason-lspconfig").setup {
-	ensure_installed = { "lua_ls", "clangd", "texlab" },
+	ensure_installed = { "lua_ls", "clangd", "gopls", "texlab" },
 }
 
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -126,6 +131,9 @@ lsp.texlab.setup({
   capabilities = lsp_capabilities,
 })
 
+lsp.gopls.setup({
+  capabilities = lsp_capabilities,
+})
 -- Completions Setup
 local cmp = require('cmp')
 cmp.setup({

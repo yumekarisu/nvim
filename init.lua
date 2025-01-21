@@ -6,3 +6,4 @@ vim.g.maplocalleader = " "
 vim.opt.shiftwidth = 4
 
 require("config.remap")
+require("config.lazy")
